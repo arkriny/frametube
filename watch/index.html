@@ -1,0 +1,37 @@
+<style>
+body {
+	color: white;
+	background-color: black;
+	margin: 0;
+}
+#player {
+	width: 100vw;
+	height: 100vh;
+}
+</style>
+
+<div id="player">No video ID provided, use ?v= parameter.</div>
+
+<script>
+const url = new URL(location.href)
+const videoId = url.searchParams.get('v')
+if (videoId !== null) {
+	// Keep only 'v' param
+	url.search = `?v=${encodeURIComponent(videoId)}`
+	history.replaceState(null, '', url)
+
+	function onYouTubeIframeAPIReady() {
+		new YT.Player('player', {
+			videoId,
+			events: {
+				onReady: e => {
+					document.title = `${e.target.getVideoData().title} - FrameTube`
+				},
+			},
+		})
+	}
+	let s = document.createElement('script')
+	s.src = 'https://www.youtube.com/iframe_api'
+	document.head.appendChild(s)
+}
+</script>
