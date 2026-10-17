@@ -10,12 +10,14 @@ body {
 }
 </style>
 
-<div id="player">No video ID provided, use ?v= parameter.</div>
+<div id="player"></div>
 
 <script>
 const url = new URL(location.href)
 const videoId = url.searchParams.get('v')
-if (videoId !== null) {
+if (videoId === null) {
+	player.innerText = 'No video ID provided, use ?v= parameter.'
+} else {
 	// Keep only 'v' param
 	url.search = `?v=${encodeURIComponent(videoId)}`
 	history.replaceState(null, '', url)
